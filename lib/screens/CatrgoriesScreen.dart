@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_with_sqlite/model/category.dart';
 import 'package:todo_with_sqlite/screens/home_screen.dart';
+import 'package:todo_with_sqlite/services/category_services.dart';
 
 class CatrgoriesScreen extends StatefulWidget {
   @override
@@ -11,6 +13,9 @@ class _CatrgoriesScreenState extends State<CatrgoriesScreen> {
   var _categoryname = TextEditingController();
   var _categorydescribe = TextEditingController();
 
+  var _category = CategoryClass();
+  var _categoryservice = CategoryService();
+
   _showfromdialouge(BuildContext context) {
     return showDialog(
         context: context,
@@ -19,11 +24,13 @@ class _CatrgoriesScreenState extends State<CatrgoriesScreen> {
           return AlertDialog(
             actions: [
               FlatButton(
-                  onPressed: () {
-                    print('Catogry Name: ${_categoryname.text}');
-                    print('Catogry Description: ${_categorydescribe.text}');
-                  },
-                  child: Text('save')),
+                onPressed: () {
+                  _category.name = _categoryname.text;
+                  _category.description = _categorydescribe.text;
+                  _categoryservice.savecategory(_category);
+                },
+                child: Text('save'),
+              ),
               FlatButton(onPressed: () {}, child: Text('cancel')),
             ],
             title: Text('category form'),
